@@ -19,23 +19,23 @@ The HR Policy Assistant is an AI-powered chatbot designed to help employees navi
 
 **Setup Instructions**
 
-1. Clone the repository:
+**1. Clone the repository:**
 - git clone https://github.com/CodeHub5199/HR-Policy-Assistant---AI-Chatbot
 - cd hr-policy-assistant
 
-2. Create and activate a virtual environment:
+**2. Create and activate a virtual environment:**
 - python -m venv venv
 - source venv/bin/activate  # Linux/Mac
 - venv\Scripts\activate
 
-3. Install dependencies:
+**3. Install dependencies:**
 - pip install -r requirements.txt
 
-4. Create a .env file with your configuration:
+**4. Create a .env file with your configuration:**
 - HF_TOKEN=your_huggingface_token
 - HR_PASSWORD=your_secure_password  # Optional
 
-5. Run the application:
+**5. Run the application:**
 - streamlit run new_app.py
 
 **Usage**
