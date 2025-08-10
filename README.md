@@ -56,3 +56,11 @@ The HR Policy Assistant is an AI-powered chatbot designed to help employees navi
 - How many sick days do we get per year?
 - What's the procedure for reporting harassment?
 - Can you explain our health insurance benefits?
+
+<img width="956" height="445" alt="7" src="https://github.com/user-attachments/assets/4e6eee61-f942-4628-90e7-8efdf0f73e11" />
+<img width="959" height="443" alt="6" src="https://github.com/user-attachments/assets/b47bf2af-a306-43c0-818a-9b3de6211726" />
+<img width="959" height="446" alt="5" src="https://github.com/user-attachments/assets/b87f2961-a5a2-4de4-b931-3fdcf2e64b23" />
+<img width="954" height="443" alt="4" src="https://github.com/user-attachments/assets/be517321-e536-42b7-8f9b-4dc89aad4c41" />
+<img width="956" height="446" alt="3" src="https://github.com/user-attachments/assets/bc90a66d-afd4-4cf9-b933-e3507535b852" />
+<img width="959" height="444" alt="2" src="https://github.com/user-attachments/assets/4e7c362f-c464-403d-b9fe-ab395adb42a5" />
+<img width="959" height="446" alt="1" src="https://github.com/user-attachments/assets/0ce896f0-1912-4dfd-a619-031d2da034c6" />
