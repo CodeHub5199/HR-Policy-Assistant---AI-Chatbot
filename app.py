@@ -305,14 +305,14 @@ def add_to_vector_store(pdf_paths: List[str]) -> None:
         st.error(f"Error processing documents: {str(e)}")
         raise
 
-def get_contextualized_qa_chain() -> Any:
+def get_contextualized_qa_chain(hf_token) -> Any:
     """
     Create a QA chain that's aware of conversation history.
     """
     try:
         llm = ChatOpenAI(
             base_url=LLM_CONFIG["base_url"],
-            api_key=os.environ["HF_TOKEN"],
+            api_key=hf_token,
             model=LLM_CONFIG["model"],
             temperature=0
         )
@@ -527,61 +527,65 @@ def display_welcome_message() -> None:
 def main() -> None:
     """Main application function with enhanced UI."""
     configure_page()
-    initialize_session_state()
-    
-    # Initialize QA chain with conversation memory
-    qa_chain = get_contextualized_qa_chain()
-    
-    # Application header with improved layout
-    col1, col2 = st.columns([0.8, 0.2])
-    with col1:
-        st.title('HR Policy Assistant 🏢')
-        st.markdown("""
-            <div style="color: #6C757D; margin-bottom: 1.5rem;">
-                Get instant answers about company policies, benefits, and procedures.
-                For HR personnel, please log in via the sidebar.
-            </div>
-        """, unsafe_allow_html=True)
-    with col2:
-        st.image("https://cdn-icons-png.flaticon.com/512/477/477103.png", width=80)
-    
-    st.divider()
-    
-    # Display welcome message on first run
-    display_welcome_message()
-    
-    # Display chat history
-    display_chat_history()
-    
-    # Handle user input
-    if query := st.chat_input("Ask about company policies...", key="user_query"):
-        # Add user message to chat history
-        user_message = HumanMessage(content=query)
-        st.session_state.chat_history.append(user_message)
+    hf_token = st.sidebar.text_input('Enter HuggingFace Token', type="password", help='Enter HuggingFace Token to initiate chatbot')
+    if hf_token:
+        initialize_session_state()
         
-        with st.chat_message("user"):
-            st.write(query)
+        # Initialize QA chain with conversation memory
+        qa_chain = get_contextualized_qa_chain(hf_token)
         
-        with st.chat_message("assistant"):
-            answer, source_docs = process_user_query(query, qa_chain)
-            display_streaming_response(answer, source_docs)
+        # Application header with improved layout
+        col1, col2 = st.columns([0.8, 0.2])
+        with col1:
+            st.title('HR Policy Assistant 🏢')
+            st.markdown("""
+                <div style="color: #6C757D; margin-bottom: 1.5rem;">
+                    Get instant answers about company policies, benefits, and procedures.
+                    For HR personnel, please log in via the sidebar.
+                </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            st.image("https://cdn-icons-png.flaticon.com/512/477/477103.png", width=80)
         
-        # Add assistant response to chat history with source metadata
-        sources_metadata = extract_and_format_sources(source_docs)
+        st.divider()
         
-        ai_message = AIMessage(
-            content=answer,
-            metadata={"sources": sources_metadata}
-        )
-        st.session_state.chat_history.append(ai_message)
-    
-    # HR document upload functionality
-    if is_hr():
-        handle_file_upload()
+        # Display welcome message on first run
+        display_welcome_message()
+        
+        # Display chat history
+        display_chat_history()
+        
+        # Handle user input
+        if query := st.chat_input("Ask about company policies...", key="user_query"):
+            # Add user message to chat history
+            user_message = HumanMessage(content=query)
+            st.session_state.chat_history.append(user_message)
+            
+            with st.chat_message("user"):
+                st.write(query)
+            
+            with st.chat_message("assistant"):
+                answer, source_docs = process_user_query(query, qa_chain)
+                display_streaming_response(answer, source_docs)
+            
+            # Add assistant response to chat history with source metadata
+            sources_metadata = extract_and_format_sources(source_docs)
+            
+            ai_message = AIMessage(
+                content=answer,
+                metadata={"sources": sources_metadata}
+            )
+            st.session_state.chat_history.append(ai_message)
+        
+        # HR document upload functionality
+        if is_hr():
+            handle_file_upload()
+        else:
+            st.sidebar.markdown("---")
+            st.sidebar.markdown("### HR Access")
+            st.sidebar.info("HR personnel can log in to upload and update policy documents.")
     else:
-        st.sidebar.markdown("---")
-        st.sidebar.markdown("### HR Access")
-        st.sidebar.info("HR personnel can log in to upload and update policy documents.")
+        st.warning('Please enter HuggingFace Token to initiate chatbot')
 
 if __name__ == "__main__":
     main()
